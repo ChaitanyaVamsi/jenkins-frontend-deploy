@@ -108,14 +108,16 @@ spec:
           httpGet:
             path: /health
             port: liveness-port
-          failureThreshold: 1
-          periodSeconds: 100
+          initialDelaySeconds: 5
+          periodSeconds: 15
+          failureThreshold: 3
         livenessProbe:
           httpGet:
             path: /health
             port: liveness-port
-          failureThreshold: 1
-          periodSeconds: 150
+          initialDelaySeconds: 15
+          periodSeconds: 20
+          failureThreshold: 3
         volumeMounts:
           - name: nginx-config
             mountPath: /etc/nginx/nginx.conf
@@ -147,7 +149,7 @@ metadata:
   namespace: roboshop
 spec:
   serviceRef:
-    name: frontend # route traffic to the awesome-service
+    name: frontend # rote teaffic to
     port: 80
   targetGroupARN: {{ .Values.tgb.arn }}
   targetType: ip
