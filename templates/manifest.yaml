@@ -149,7 +149,13 @@ metadata:
   namespace: roboshop
 spec:
   serviceRef:
-    name: frontend # rote teaffic to
+    name: frontend      # all pods of this service
     port: 80
-  targetGroupARN: {{ .Values.tgb.arn }}
-  targetType: ip
+  targetGroupARN: {{ .Values.tgb.arn }}  # existing AWS target group (already linked to ALB)
+  targetType: ip        # register pod IPs as targets
+
+
+  # All pods behind the frontend Service are registered as IP targets inside this AWS Target Group.
+  # TargetGroupBinding never attaches to a load balancer.
+  #  It only updates targets in the target group, and that target group is already attached to exactly one load balancer by AWS configuration.
+  # TargetGroupBinding updates the list of pod IPs (targets) inside an already-attached AWS Target Group.
